@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from "react"; // erzeugt ein Context-Objekt.
-import { DUMMY_PRODUCTS } from "../components/shop-udemy/dummy-products.jsx";
+import { DUMMY_PRODUCTS } from "../components/shop-udemy/dummy-products.js";
 
 
 

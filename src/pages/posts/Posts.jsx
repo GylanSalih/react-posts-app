@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Posts.module.scss";
-import Card from "../../components/card/Card";
-import AddNewPost from "../add-new-post/AddNewPost";
+import Card from "../../components/card/Card.jsx";
+import AddNewPost from "../add-new-post/AddNewPost.jsx";
 
 
-import { deletePostById, getPosts } from "../../api/api";
+import { deletePostById, getPosts } from "../../api/api.js";
 
-import { PosterProvider } from "../../context/postercontent.jsx";
-import { useContext } from "react";
+
+import { useNavigate } from "react-router-dom";
+
+
+import { usePoster } from "../../context/postercontext.jsx";
+
+
+import Filterbar from "../../components/filterbar/filterbar.jsx";
 
 const Posts = () => {
-  const [posts, setPosts] = useState([]);
   const [userId, setUserId] = useState("");
   const [page, setPage] = useState(1);
   const [error, setError] = useState(null);
@@ -18,108 +23,66 @@ const Posts = () => {
   const [limit, setLimit] = useState(10);
   const [addNewPost, setAddNewPost] = useState(false);
 
-  const poster = useContext(PosterProvider);
-  // const poster = usePoster();
+
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const navigate = useNavigate();
+  
+  
+
+  const { deletePost, posts, goFirstPage, goNextPage, goLastPage, goPreviousPage, newpostcloseopener, sortByUserId, ApoDescriptionShorter } = usePoster()
 
 
-  // undefined
-  console.log(poster);
 
-
-
-  // const { handleAddNewPostOpener, addNewPost, error, posts, deletePost,
-    // ApoDescriptionShorter, goFirstPage, goPreviousPage, goNextPage, goLastPage, page, limit } = poster;
-
-
-  useEffect(() => {
-    fetch(
-      `https://jsonplaceholder.typicode.com/posts?_limit=${limit}&_page=${page}`
-    )
-      .then((response) => response.json())
-      .then((data) => setPosts(data))
-      .catch((error) => setError(error));
-  }, [page, limit]);
-
-
-  useEffect(() => {
-    async function test() {
-      const result = await getPosts(page);
-      const lastPage = limit;
-      setLastPage(lastPage);
-      if (!result.ok) {
-        throw new Error("Failed to fetch posts");
-      }
-      const list = await result.json();
-      console.log(list);
-      setPosts(list);
-    }
-
-    test();
-  }, [page, limit]);
-
-  // ApoDescriptionShorter is a function that shortens the description of the post to 100 characters
-  const ApoDescriptionShorter = (description) => {
-    return description.slice(0, 100) + "...";
+  const handleGoFirstPage = () => {
+    goFirstPage();
   };
 
-  const goNextPage = () => {
-    if (page >= lastPage) return;
-    setPage(page + 1);
+  const handleGoNextPage = () => {
+    goNextPage();
   };
 
-  const goLastPage = () => {
-    if (page >= lastPage) return;
-    setPage(lastPage);
+  const handleGoLastPage = () => {
+    goLastPage();
   };
 
-  const goFirstPage = () => {
-    if (page <= 1) return;
-    setPage(1);
+  const handleGoPreviousPage = () => {
+    goPreviousPage();
   };
 
-  const goPreviousPage = () => {
-    if (page <= 1) return;
-    setPage(page - 1);
+  const handleApoDescriptionShorter = (description) => {
+    return ApoDescriptionShorter(description);
   };
 
-  const deletePost = async (id) => {
-    setError(false);
-    const result = await deletePostById(id);
-
-    console.log(result);
-    if (!result.ok) {
-      setError(true);
-      return;
-    }
-
-    const filtered = posts.filter((post) => post.id !== id);
-    setPosts(filtered);
-    console.log(filtered);
+  const handleDelete = (id) => {
+    deletePost(id);
   };
 
+ const handleSortByUserId = (userId) => {
+  sortByUserId(userId);
+ };
 
-  function handleAddNewPostOpener() {
-    poster.handleAddNewPostOpener();
-  }
+const handleNewpostcloseopener = () => {
+  newpostcloseopener();
+};
 
-  // const handleAddNewPostOpener = () => {
-  //   setAddNewPost(!addNewPost);
-  // };
 
-  // const handleAddNewPostOpener = handleAddNewPostOpener();
+
+
 
   return (
     <div className={styles.simpleWrapper}>
       <div className={styles.Posts}>
         <div className={styles.title}>
           <h1>Posts Grid</h1>
-          <button className={styles.button} onClick={handleAddNewPostOpener}>Add New Post</button>
+          <button className={styles.button} onClick={handleNewpostcloseopener}>Add New Post</button>
         </div>
+
+        <Filterbar sortByUserId={handleSortByUserId} />
 
 
       {/* show add new post component */}
         {addNewPost && <AddNewPost />}
-      {addNewPost && <button className={styles.button} onClick={handleAddNewPostOpener}>Back to Posts</button>}
+      {addNewPost && <button className={styles.button}>Back to Posts</button>}
 
         {error && (
           <div>
@@ -138,8 +101,8 @@ const Posts = () => {
             <Card
               key={post.id}
               title={post.title}
-              description={ApoDescriptionShorter(post.body)}
-              deletePost={deletePost}
+              description={handleApoDescriptionShorter(post.body)}
+              deletePost={handleDelete}
               postId={post.id}
             ></Card>
           ))}
@@ -148,10 +111,10 @@ const Posts = () => {
         {/* --------- Pagination Container --------- */}
         {error && <p className={styles.error}>{error}</p>}
         <div className={styles.paginationContainer}>
-          <button className={styles.button} onClick={goFirstPage}>
+          <button className={styles.button} onClick={handleGoFirstPage}>
             First Page
           </button>
-          <button className={styles.button} onClick={goPreviousPage}>
+          <button className={styles.button} onClick={handleGoPreviousPage}>
             Previous Page
           </button>
           <button className={styles.button}>Current Page: {page}</button>
@@ -177,10 +140,10 @@ const Posts = () => {
               50
             </button>
           </div>
-          <button className={styles.button} onClick={goNextPage}>
+          <button className={styles.button} onClick={handleGoNextPage}>
             Next Page
           </button>
-          <button className={styles.button} onClick={goLastPage}>
+          <button className={styles.button} onClick={handleGoLastPage}>
             Last Page
           </button>
         </div>

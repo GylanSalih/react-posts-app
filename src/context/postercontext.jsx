@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { deletePostById, getPosts } from "../api/api";
 
 const PosterContext = createContext(null);
@@ -24,16 +23,16 @@ export const PosterProvider = ({ children }) => {
 
   useEffect(() => {
     fetch(
-      `https://jsonplaceholder.typicode.com/posts?_limit=${limit}&_page=${page}`
+      `https://jsonplaceholder.typicode.com/posts?_limit=${limit}&_page=${page}&userId=${userId}`
     )
       .then((response) => response.json())
       .then((data) => setPosts(data))
       .catch((error) => setError(error));
   }, [page, limit]);
-
+  
   useEffect(() => {
     async function test() {
-      const result = await getPosts(page);
+      const result = await getPosts(page, userId);
       const lastPage = limit;
       setLastPage(lastPage);
       if (!result.ok) {
@@ -79,6 +78,7 @@ export const PosterProvider = ({ children }) => {
     console.log(result);
     if (!result.ok) {
       setError(true);
+      console.log("deletePost error");
       return;
     }
 
@@ -87,14 +87,21 @@ export const PosterProvider = ({ children }) => {
     console.log(filtered);
   };
 
-  const handleAddNewPostOpener = () => {
+  const newpostcloseopener = () => {
     setAddNewPost(!addNewPost);
+  };
+
+
+  // fürs filter damit er arbeiten kann
+  const sortByUserId = (userId) => {
+    setUserId(userId);
   };
 
   const posterValue = {
     ApoDescriptionShorter,
-    handleAddNewPostOpener,
+    newpostcloseopener,
     deletePost,
+    sortByUserId,
     goNextPage,
     goLastPage,
     goFirstPage,

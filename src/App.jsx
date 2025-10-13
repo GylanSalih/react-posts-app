@@ -3,15 +3,15 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Components import
-import Home from './pages/home/Home';
-import Posts from './pages/posts/Posts';
-import Header from './components/header/Header';
-import Footer from './components/footer/Footer';
-import AddNewPost from './pages/add-new-post/AddNewPost';
-import PostPage from './pages/PostPage/PostPage';
+import Home from './pages/home/Home.jsx';
+import Posts from './pages/posts/Posts.jsx';
+import Header from './components/header/Header.jsx';
+import Footer from './components/footer/Footer.jsx';
+import AddNewPost from './pages/add-new-post/AddNewPost.jsx';
+import PostPage from './pages/PostPage/PostPage.jsx';
 
 // import von context
-import { PosterProvider } from './context/postercontent.jsx';
+import { PosterProvider } from './context/postercontext.jsx';
 
 export default function App() {
 

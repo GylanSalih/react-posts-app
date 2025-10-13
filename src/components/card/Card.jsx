@@ -2,8 +2,16 @@ import React from 'react';
 import styles from './Card.module.scss';
 import { useNavigate } from 'react-router-dom';
 
-const Card = ({ title, description, deletePost, postId }) => {
+// context aufrufen
+import { usePoster } from "../../context/postercontext.jsx";
+
+
+const Card = ({ title, description, postId }) => {
   const navigate = useNavigate();
+
+  const { deletePost } = usePoster()
+
+
 
   // Datum formatieren
   const dateShower = () => {
@@ -18,17 +26,12 @@ const Card = ({ title, description, deletePost, postId }) => {
     navigate(`/posts/${postId}`);
   }
 
-  // // Click Event for Card which redirects to PostPage
-  // const handleCardClick = (e) => {
-  //   // Verhindere Navigation wenn Delete-Button geklickt wird
-  //   showMore();
-  // }
+  
 
+  // löst den lösch vorgang aus ist aber in child?
   const handleDelete = (e) => {
     e.stopPropagation(); // Verhindere Card-Click Event
-    if (window.confirm('Do you really want to delete this post?')) {
       deletePost(postId);
-    }
   }
 
   return (
@@ -62,3 +65,4 @@ const Card = ({ title, description, deletePost, postId }) => {
 };
 
 export default Card;
+

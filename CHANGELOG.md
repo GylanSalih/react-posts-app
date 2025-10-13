@@ -1,4 +1,5 @@
 0.0.2 – Newest Updates
+• Context is now working with the Posts Grid — I’m creating a universal version for all components instead of prop drilling. Levi helped me with that, and you also gave me a tip to use Raycast and plugins. I’ll come back to that once I feel more confident instead of relying on predefined templates.
 • Installed Vite updating before i get problems
 • Tryed to build Context & Reducer still working on that 
 • Fixed a bug with the API caused by a wrongly renamed file (PostPage / Home)

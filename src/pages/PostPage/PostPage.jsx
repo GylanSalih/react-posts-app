@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from "./PostPage.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
+
+
+
 import { deletePostById, getPostById } from "../../api/api";
+
+// import { PosterProvider } from "../../context/postercontent.jsx";
+// import { useContext } from "react";
+
 
 const PostPage = () => {
   const { postId } = useParams();
@@ -9,6 +16,8 @@ const PostPage = () => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -32,12 +41,13 @@ const PostPage = () => {
     }
   }, [postId]);
 
-  const handleDelete = async () => {
-    if (window.confirm("Do you really want to delete this post?")) {
+  const handleDelete = async (id) => {
+    if (window.confirm("PostPage.jsx handleDelete function")) {
       try {
-        const response = await deletePostById(postId);
+        const response = await deletePostById(id);
         if (response.ok) {
-          navigate("/");
+          // wenn delete erfolgreich dann navigiere zur posts pag
+          navigate("/Posts");
         } else {
           setError("Error deleting post");
         }
