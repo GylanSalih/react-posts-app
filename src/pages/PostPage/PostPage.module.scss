@@ -1,0 +1,107 @@
+.postPage {
+  inline-size: min(100% - 52px * 2, 1816px);
+  margin-inline: auto;
+  padding: 0rem 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+
+}
+
+.postPageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #101010;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.postPageContainer h1 {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.postMeta {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.postId,
+.userId {
+  color: #ffffff;
+  font-size: 0.8rem;
+  margin: 0;
+  background-color: #000000;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.postContent {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.postContent p {
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  text-align: center;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.editButton,
+.deleteButton,
+.backButton {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editButton:hover,
+.deleteButton:hover,
+.backButton:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .postPage {
+    padding: 10px;
+  }
+  
+  .postPageContainer {
+    padding: 10px;
+  }
+  
+  .postMeta {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .buttonGroup {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+

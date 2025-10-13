@@ -1,0 +1,73 @@
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 550px);
+  gap: 30px;
+  justify-content: center;
+  list-style: none;
+  width: 100%;
+  box-sizing: border-box;
+  padding-top: 30px;
+
+  @media (max-width: 1800px) {
+    grid-template-columns: repeat(3, minmax(450px, 550px));
+    gap: 25px;
+  }
+
+  @media (max-width: 1550px) {
+    grid-template-columns: repeat(2, minmax(400px, 550px));
+    gap: 20px;
+  }
+
+  @media (max-width: 1250px) {
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 20px;
+  }
+}
+
+
+
+  .title {
+    display: flex;
+    font-size: 1.5rem;
+    color: #ffffff;
+    text-align: center;
+    justify-content: center;
+    padding: 4px;
+  }
+
+  /* ---------------------------- Pagination Container ---------------------------- */
+  
+
+  .paginationContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    padding-top: 100px;
+    background-color: #000000;
+    border-radius: 5px;
+  }
+
+
+  .button {
+    background-color: #101010;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    padding: 10px 20px 10px 20px;
+    border: none;
+    cursor: pointer;
+  }

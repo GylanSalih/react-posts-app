@@ -10,4 +10,8 @@ export const deletePostById = async (id) => {
       {}
     );
   };
+
+  export const getPostById = async (id) => {
+    return await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+  };
   

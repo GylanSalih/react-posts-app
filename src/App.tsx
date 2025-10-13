@@ -2,10 +2,11 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home';
-import AllPosts from './pages/blog/AllPosts';
+import Posts from './pages/posts/Posts';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import AddNewPost from './pages/add-new-post/AddNewPost';
+import PostPage from './pages/PostPage/PostPage';
 
 function App() {
   return (
@@ -14,9 +15,11 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/AllPosts" element={<AllPosts />} />
+          <Route path="/posts" element={<Posts />} />
           <Route path="/AddNewPost" element={<AddNewPost />} />
-          <Route path="*" element={<AddNewPost />} />
+          {/* <Route path="/editpost/:postId" element={<EditPost />} />
+          <Route path="/AllPosts" element={<AllPosts />} /> */}
+          <Route path="/Posts/:postId" element={<PostPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>
