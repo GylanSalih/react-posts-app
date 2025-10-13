@@ -11,7 +11,7 @@ const AddNewPost = () => {
   const handleAddPostClicker = (e) => {
     e.stopPropagation(); // Verhindere Card-Click Event
     console.log("Add Post wurd angeklickt!");
-    if (window.confirm('Möchtest du diesen Post wirklich hinzufügen?')) {
+    if (window.confirm("Möchtest du diesen Post wirklich hinzufügen?")) {
       // logic here
       console.log(titleRef.current.value);
       console.log(bodyRef.current.value);
@@ -20,20 +20,34 @@ const AddNewPost = () => {
     }
   };
 
-
   return (
     <div className={styles.addNewPost}>
       <div className={styles.simpleWrapper}>
-        <h1>Add New Post</h1>
-        <button className={styles.backtobutton} onClick={() => navigate("/posts")}>
-          Back to Posts
-        </button>
+        <p>Add New Post</p>
       </div>
       <div className={styles.formContainer}>
         <form className={styles.form}>
-          <input type="text" value={title} placeholder="Title" ref={titleRef} onChange={(e) => setTitle(e.target.value)} />
-          <input type="text" value={body} placeholder="Body" ref={bodyRef} onChange={(e) => setBody(e.target.value)}  />
-          <button className={styles.createbutton} type="submit" onSubmit={() => handleAddPostClicker()}>Create Post</button>
+          <input
+            type="text"
+            value={title}
+            placeholder="Your Title"
+            ref={titleRef}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <input
+            type="text"
+            value={body}
+            placeholder="Your Description"
+            ref={bodyRef}
+            onChange={(e) => setBody(e.target.value)}
+          />
+          <button
+            className={styles.createbutton}
+            type="submit"
+            onSubmit={() => handleAddPostClicker()}
+          >
+            Create Post
+          </button>
         </form>
       </div>
     </div>

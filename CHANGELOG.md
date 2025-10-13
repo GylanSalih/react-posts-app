@@ -1,4 +1,6 @@
 0.0.2 – Newest Updates
+• Installed Vite updating before i get problems
+• Tryed to build Context & Reducer still working on that 
 • Fixed a bug with the API caused by a wrongly renamed file (PostPage / Home)
 • Switched all styling from CSS to SCSS
 • Installed Sass (npm install sass)
@@ -9,6 +11,7 @@
 • Clicking the Add New Post button redirects to the Add New Post page
 • Clicking Cancel returns you to the Posts page
 • Started implementing the Add New Post form with input fields, value bindings, and submit buttons
+
 
 0.0.1 – Previous Updates
 • React + Vite setup

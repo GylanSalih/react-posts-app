@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Posts.module.scss";
-import { deletePostById, getPosts } from "../../api/api";
 import Card from "../../components/card/Card";
-import { useNavigate } from "react-router-dom";
+import AddNewPost from "../add-new-post/AddNewPost";
+
+
+import { deletePostById, getPosts } from "../../api/api";
+
+import { PosterProvider } from "../../context/postercontent.jsx";
+import { useContext } from "react";
+
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [userId, setUserId] = useState("");
@@ -10,9 +16,20 @@ const Posts = () => {
   const [error, setError] = useState(null);
   const [lastPage, setLastPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  
+  const [addNewPost, setAddNewPost] = useState(false);
 
-  const navigate = useNavigate();
+  const poster = useContext(PosterProvider);
+  // const poster = usePoster();
+
+
+  // undefined
+  console.log(poster);
+
+
+
+  // const { handleAddNewPostOpener, addNewPost, error, posts, deletePost,
+    // ApoDescriptionShorter, goFirstPage, goPreviousPage, goNextPage, goLastPage, page, limit } = poster;
+
 
   useEffect(() => {
     fetch(
@@ -22,6 +39,7 @@ const Posts = () => {
       .then((data) => setPosts(data))
       .catch((error) => setError(error));
   }, [page, limit]);
+
 
   useEffect(() => {
     async function test() {
@@ -79,13 +97,29 @@ const Posts = () => {
     console.log(filtered);
   };
 
+
+  function handleAddNewPostOpener() {
+    poster.handleAddNewPostOpener();
+  }
+
+  // const handleAddNewPostOpener = () => {
+  //   setAddNewPost(!addNewPost);
+  // };
+
+  // const handleAddNewPostOpener = handleAddNewPostOpener();
+
   return (
     <div className={styles.simpleWrapper}>
       <div className={styles.Posts}>
         <div className={styles.title}>
           <h1>Posts Grid</h1>
-          <button className={styles.button} onClick={() => navigate("/AddNewPost")}>Add New Post</button>
+          <button className={styles.button} onClick={handleAddNewPostOpener}>Add New Post</button>
         </div>
+
+
+      {/* show add new post component */}
+        {addNewPost && <AddNewPost />}
+      {addNewPost && <button className={styles.button} onClick={handleAddNewPostOpener}>Back to Posts</button>}
 
         {error && (
           <div>
