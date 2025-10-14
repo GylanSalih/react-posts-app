@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./filterbar.module.scss";
-import { usePoster } from "../../context/postercontext.jsx";
+import { usePoster } from "../../context/Context.jsx";
 
 const Filterbar = () => {
   const { sortByUserId, setSearchTerm, searchTerm, handleSearch } = usePoster();

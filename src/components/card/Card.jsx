@@ -2,11 +2,17 @@ import React from 'react';
 import styles from './Card.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight, X } from 'lucide-react';
-import { usePoster } from "../../context/postercontext.jsx";
+import { usePoster } from "../../context/Context.jsx";
+
+
+// import { useReducer } from "react";
+// import reducerProvider from "../../context/ReducerProvider.jsx";
 
 const Card = ({ title, description, postId }) => {
   const navigate = useNavigate();
   const { deletePost } = usePoster();
+
+  // const [state, dispatch] = useReducer(reducerProvider, initialState);
 
   // Format the date
   const dateShower = () => {
@@ -56,6 +62,15 @@ const Card = ({ title, description, postId }) => {
           >
             <X size={18} />
           </button>
+          {/* <button 
+            onClick={() => dispatch({
+              type: "DELETE_POST",
+              payload: postId,
+            })}
+          >
+            <X size={18} />
+          </button> */}
+            
         </div>
       </figure>
     </div>

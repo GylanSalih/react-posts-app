@@ -3,7 +3,7 @@ import styles from "./EditPost.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { getPostById, updatePost } from "../../api/api";
-import { usePoster } from "../../context/postercontext.jsx";
+import { usePoster } from "../../context/Context.jsx";
 
 const EditPost = () => {
   const { postId } = useParams();

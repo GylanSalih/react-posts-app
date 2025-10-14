@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useReducer } from "react";
 import styles from "./Posts.module.scss";
+// Components
 import Card from "../../components/card/Card.jsx";
 import AddNewPost from "../add-new-post/AddNewPost.jsx";
-import { usePoster } from "../../context/postercontext.jsx";
 import Filterbar from "../../components/filterbar/filterbar.jsx";
+// Context
+import { usePoster } from "../../context/Context.jsx";
+// Reducer
+import posterReducer from "../../context/ReducerProvider";
+
 
 const Posts = () => {
   const { 
@@ -25,6 +30,8 @@ const Posts = () => {
   } = usePoster();
 
 
+
+  // const [state, dispatch] = useReducer(posterReducer, initialState);
 
 
   const onlyShowloadMoreButton = currentlyLoadedPosts > 5 && filteredPosts.length > 1;

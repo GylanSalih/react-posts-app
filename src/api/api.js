@@ -26,6 +26,7 @@
 
   export const updatePost = async (id, title, body, userId = 1) => {
     return await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+      // Updating a resource -> JSON Guide
       method: 'PUT',
       body: JSON.stringify({
         id: id,

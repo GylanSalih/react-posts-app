@@ -1,16 +1,69 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useReducer } from "react";
 import { deletePostById, getPosts } from "../api/api";
 
 const PosterContext = createContext(null);
 
+
 // --------------- Context -----------------------
 export const usePoster = () => {
   const context = useContext(PosterContext);
-  if (context === null) {
+  if (!context) {
+    // or if (context === null) {}
     throw new Error("usePoster must be used within a PosterProvider");
   }
   return context;
 };
+
+
+const postsReducer = (state, action) => {
+  switch (action.type) {
+    case "DELETE_POST":
+      // if(action.type === "DELETE_POST") {}
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post.id !== action.payload),
+      };
+    case "ADD_POST":
+      return {
+        ...state,
+        posts: [...state.posts, action.payload],
+      };
+    case "FETCH_INIT":
+      return {
+        ...state,
+        isLoading: true,
+        // error null stellem
+      };
+    case "FETCH_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        // daten hast die du brauchst um es richtig zu verändern -> eingabe, ergeniss von einem fetch
+        // action.payload nochmal nachschauen
+        posts: action.payload,
+      };
+    case "FETCH_FAILURE":
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    case "UPDATE_POST":
+      return {
+        ...state,
+        posts: state.posts.map((post) => post.id === action.payload.id ? action.payload : post),
+      };
+    case "LOAD_MORE_BUTTON":
+      return {
+        ...state,
+        currentlyLoadedPosts: state.currentlyLoadedPosts + 1,
+      };
+    default:
+      throw new Error("Error in Reducer something went wrong" + action.type);
+  }
+}
+
+
 
 export const PosterProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
@@ -21,6 +74,16 @@ export const PosterProvider = ({ children }) => {
   const [limit, setLimit] = useState(10);
   const [addNewPost, setAddNewPost] = useState(false);
   const [currentlyLoadedPosts, setCurrentlyLoadedPosts] = useState(1);
+
+  // state für State & Dispatch
+  const [state, dispatch] = useReducer(postsReducer,
+    {
+      posts: [],
+      title,
+      postId
+
+    }
+  );
 
 
   // for search
@@ -37,10 +100,10 @@ export const PosterProvider = ({ children }) => {
         const list = await result.json();
         console.log(list);
         setPosts(list);
-        // Berechne lastPage basierend auf der Gesamtanzahl (100 Posts bei JSONPlaceholder)
         const totalPosts = 100;
-        const calculatedLastPage = Math.ceil(totalPosts / limit);
-        setLastPage(calculatedLastPage);
+        // const calculatedLastPage = Math.ceil(totalPosts / limit);
+        // setLastPage(calculatedLastPage);
+        setLastPage(10);
         setCurrentlyLoadedPosts(list.length);
       } catch (err) {
         setError(err);
@@ -125,8 +188,8 @@ export const PosterProvider = ({ children }) => {
       const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
         method: 'POST',
         body: JSON.stringify({
-          title: title,
-          body: body,
+          title,
+          body,
           userId: userId,
         }),
         headers: {

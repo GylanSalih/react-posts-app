@@ -3,7 +3,7 @@ import styles from "./PostPage.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { getPostById } from "../../api/api";
-import { usePoster } from "../../context/postercontext.jsx";
+import { usePoster } from "../../context/Context.jsx";
 
 const PostPage = () => {
   const { postId } = useParams();

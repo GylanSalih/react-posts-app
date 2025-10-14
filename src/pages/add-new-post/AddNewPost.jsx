@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styles from "./AddNewPost.module.scss";
-import { usePoster } from "../../context/postercontext.jsx";
+import { usePoster } from "../../context/Context.jsx";
 
 const AddNewPost = () => {
   const { addPost } = usePoster();
+
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [userId, setUserId] = useState(1);
@@ -11,7 +12,7 @@ const AddNewPost = () => {
 
   const handleAddPostClicker = async (e) => {
     e.preventDefault(); // Prevent Standard-Formular-Submit
-    
+
     if (!title.trim() || !body.trim()) {
       alert("Please fill out all fields!");
       return;
@@ -35,12 +36,14 @@ const AddNewPost = () => {
     }
   };
 
-
   return (
     <div className={styles.addNewPost}>
       <div className={styles.simpleWrapper}>
         <p>Add New Post</p>
       </div>
+
+
+
       <div className={styles.formContainer}>
         <form className={styles.form} onSubmit={handleAddPostClicker}>
           <input
