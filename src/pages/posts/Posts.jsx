@@ -19,12 +19,15 @@ const Posts = () => {
     goPreviousPage, 
     newpostcloseopener, 
     ApoDescriptionShorter,
-    filteredPosts
+    filteredPosts,
+    loadMoreButton,
+    currentlyLoadedPosts,
   } = usePoster();
 
 
 
 
+  const onlyShowloadMoreButton = currentlyLoadedPosts > 5 && filteredPosts.length > 1;
 
   return (
     <div className={styles.simpleWrapper}>
@@ -35,6 +38,10 @@ const Posts = () => {
         </div>
 
         <Filterbar />
+
+        <div className={styles.currentlyLoadedPostsContainer}>
+          <p>Currently Loaded Posts: {currentlyLoadedPosts}</p>
+        </div>
 
         {/* show add new post component */}
         {addNewPost && <AddNewPost />}
@@ -53,7 +60,7 @@ const Posts = () => {
         )}
 
         <div className={styles.cardContainer}>
-          {filteredPosts.map((post) => (
+          {filteredPosts.length > 0 && filteredPosts.map((post) => (
             <Card
               key={post.id}
               title={post.title}
@@ -61,7 +68,16 @@ const Posts = () => {
               postId={post.id}
             />
           ))}
+          {filteredPosts.length === 0 && <h1 className={styles.noPostsFound}>No posts found</h1>}
         </div>
+
+        <div className={styles.loadMoreContainer}>
+          {onlyShowloadMoreButton && (
+            <button className={styles.loadMoreButton} onClick={loadMoreButton}>
+            Load More
+          </button>
+          )}
+          </div>
 
         {/* --------- Pagination Container --------- */}
         {error && <p className={styles.error}>{error}</p>}

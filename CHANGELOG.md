@@ -8,7 +8,10 @@
 • Searchbar is not working
 • Pagination, add new posts, filter nothing works anymore
 • fixed all is now working
-
+• Added loadmore simple limit of content +10 onClick
+• Added Currently Loaded Posts: 40 but i think this is a bug because number showing current limit posts and needs to be dynamic on filter or Posts per Page visible to show the correct counter
+• added currentlyLoadedPosts useState which will track the length of the list and i was able to publish the right counter with this way
+• if statement and visibility for button for const onlyShowloadMoreButton = currentlyLoadedPosts > 5 && filteredPosts.length > 1; 
 
 
 0.0.2 – Previous Updates

@@ -166,3 +166,63 @@
     min-height: 100vh;
     background-color: #000;
   }
+
+  /* ---------------------------- No Posts Found ---------------------------- */
+  
+  
+  // später bearbeiten
+  .noPostsFound {
+    text-align: center;
+    display: flex;
+    padding: 2rem;
+    color: #666;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.125rem;
+  }
+  
+  /* ---------------------------- Loads More Button ---------------------------- */
+
+  
+  .loadMoreContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  
+  
+  .loadMoreButton {  
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 2rem;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+
+      
+  /* ---------------------------- Currently Loaded Posts Container ---------------------------- */
+
+  .currentlyLoadedPostsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+  
+
+  .currentlyLoadedPosts {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #fff;
+  }

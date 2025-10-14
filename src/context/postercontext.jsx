@@ -20,6 +20,8 @@ export const PosterProvider = ({ children }) => {
   const [lastPage, setLastPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [addNewPost, setAddNewPost] = useState(false);
+  const [currentlyLoadedPosts, setCurrentlyLoadedPosts] = useState(1);
+
 
   // for search
   const [filteredPosts, setFilteredPosts] = useState([]);
@@ -39,6 +41,7 @@ export const PosterProvider = ({ children }) => {
         const totalPosts = 100;
         const calculatedLastPage = Math.ceil(totalPosts / limit);
         setLastPage(calculatedLastPage);
+        setCurrentlyLoadedPosts(list.length);
       } catch (err) {
         setError(err);
         console.error("Error fetching posts:", err);
@@ -97,6 +100,15 @@ export const PosterProvider = ({ children }) => {
     setSearchTerm(e.target.value);
     console.log(searchTerm);
   };
+
+  const loadMoreButton = () => {
+    setLimit(limit + 10);
+    console.log(limit);
+  }
+  
+
+
+
 
   // geiilll
   useEffect(() => {
@@ -182,6 +194,8 @@ export const PosterProvider = ({ children }) => {
     filteredPosts,
     setFilteredPosts,
     handleSearch,
+    loadMoreButton,
+    currentlyLoadedPosts,
   };
 
   return (
