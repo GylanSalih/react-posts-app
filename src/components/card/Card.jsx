@@ -1,19 +1,14 @@
 import React from 'react';
 import styles from './Card.module.scss';
 import { useNavigate } from 'react-router-dom';
-
-// context aufrufen
+import { ArrowUpRight, X } from 'lucide-react';
 import { usePoster } from "../../context/postercontext.jsx";
-
 
 const Card = ({ title, description, postId }) => {
   const navigate = useNavigate();
+  const { deletePost } = usePoster();
 
-  const { deletePost } = usePoster()
-
-
-
-  // Datum formatieren
+  // Format the date
   const dateShower = () => {
     return new Date().toLocaleDateString("de-DE", { 
       year: "numeric", 
@@ -22,44 +17,47 @@ const Card = ({ title, description, postId }) => {
     });
   }
 
-  const showMore = () => {
+  const showMore = (e) => {
+    e.preventDefault();
     navigate(`/posts/${postId}`);
   }
 
-  
-
-  // löst den lösch vorgang aus ist aber in child?
   const handleDelete = (e) => {
-    e.stopPropagation(); // Verhindere Card-Click Event
+    e.preventDefault();
+    e.stopPropagation();
+    if (window.confirm("Do you want to delete this post?")) {
       deletePost(postId);
+    }
   }
 
   return (
-    <div className={styles.simpleWrapper}>
-    <div className={styles.Card} onClick={showMore}>
-      <img 
-        src="/images/blogImg.png" 
-        alt="blog-card" 
-        className={styles.CardImage} 
-      />
-      <h1 className={styles.CardTitle}>{title}</h1>
-      <p className={styles.CardDate}>{dateShower()}</p>
-      <p className={styles.CardDescription}>{description}</p>
-      <div className={styles.buttonGroup}>
-        <button 
-          className={styles.showMoreButton} 
-          onClick={showMore}
-        >
-          Read More
-        </button>
-        <button 
-          className={styles.deleteButton} 
-          onClick={handleDelete}
-        >
-          Delete
-        </button>
-      </div>
-      </div>
+    <div className={styles.card}>
+      <figure className={styles.figure}>
+        <img 
+          src="/images/blogImg.png" 
+          alt={title} 
+          className={styles.image} 
+        />
+        <div className={styles.overlay} onClick={showMore}>
+          <div className={styles.content}>
+            <h3>{title}</h3>
+            <p className={styles.date}>{dateShower()}</p>
+            <p className={styles.description}>{description}</p>
+          </div>
+        </div>
+        <div className={styles.iconGroup}>
+          <div className={styles.linkIcon} onClick={showMore}>
+            <ArrowUpRight size={20} />
+          </div>
+          <button 
+            className={styles.deleteIcon}
+            onClick={handleDelete}
+            aria-label="Delete post"
+          >
+            <X size={18} />
+          </button>
+        </div>
+      </figure>
     </div>
   );
 };

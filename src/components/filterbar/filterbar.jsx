@@ -1,45 +1,51 @@
-import react, { useState } from "react";
+import React from "react";
 import styles from "./filterbar.module.scss";
+import { usePoster } from "../../context/postercontext.jsx";
 
-const Filterbar = ({ sortByUserId }) => {
-  const [search, setSearch] = useState("");
-  const [filteredPosts, setFilteredPosts] = useState([]);
-
-
+const Filterbar = () => {
+  const { sortByUserId, setSearchTerm, searchTerm, handleSearch } = usePoster();
 
 
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-  };
 
-  const handleFilter = (e) => {
-    setFilteredPosts(e.target.value);
-  };
 
   const handleClear = () => {
-    setSearch("");
-    setFilteredPosts([]);
+    setSearchTerm("");
+    sortByUserId(""); // Clear filter
   };
 
+  // handle search by string
+  // Handle search
+
+
   const handleSelect = (e) => {
-    setFilteredPosts(e.target.value);
-    console.log(e.target.value);
+    const selectedUserId = e.target.value;
+    console.log(selectedUserId);
+    if (selectedUserId === "all") {
+      sortByUserId("");
+    } else {
+      sortByUserId(selectedUserId);
+    }
   };
 
   return (
     <div className={styles.simpleWrapper}>
       <div className={styles.filterbar}>
         <p>Filter</p>
-        <input type="text" value={search} onChange={handleSearch} />
+        <input 
+          placeholder="Search posts..."
+          className={styles.input}
+          type="text" 
+          value={searchTerm} 
+          onChange={(e) => handleSearch(e)}
+        />
         <select className={styles.selectdropdown} onChange={handleSelect}>
-            <option onClick={() => {handleClear()}}value="all">Show all</option>
-          <option onClick={() => {sortByUserId()}}value="1">User 1</option>
-          <option onClick={() => {sortByUserId()}}value="2">User 2</option>
-          <option onClick={() => {sortByUserId()}}value="3">User 3</option>
-          <option onClick={() => {sortByUserId()}}value="4">User 4</option>
-          <option onClick={() => {sortByUserId()}}value="5">User 5</option>
+          <option value="all">Show all</option>
+          <option value="1">User 1</option>
+          <option value="2">User 2</option>
+          <option value="3">User 3</option>
+          <option value="4">User 4</option>
+          <option value="5">User 5</option>
         </select>
-        <button className={styles.filterbutton} onClick={handleFilter}>Filter</button>
         <button className={styles.clearbutton} onClick={handleClear}>Clear</button>
       </div>
     </div>

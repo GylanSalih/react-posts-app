@@ -1,69 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./Posts.module.scss";
 import Card from "../../components/card/Card.jsx";
 import AddNewPost from "../add-new-post/AddNewPost.jsx";
-
-
-import { deletePostById, getPosts } from "../../api/api.js";
-
-
-import { useNavigate } from "react-router-dom";
-
-
 import { usePoster } from "../../context/postercontext.jsx";
-
-
 import Filterbar from "../../components/filterbar/filterbar.jsx";
 
 const Posts = () => {
-  const [userId, setUserId] = useState("");
-  const [page, setPage] = useState(1);
-  const [error, setError] = useState(null);
-  const [lastPage, setLastPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [addNewPost, setAddNewPost] = useState(false);
-
-
-  const [selectedUserId, setSelectedUserId] = useState("");
-  const navigate = useNavigate();
-  
-  
-
-  const { deletePost, posts, goFirstPage, goNextPage, goLastPage, goPreviousPage, newpostcloseopener, sortByUserId, ApoDescriptionShorter } = usePoster()
-
-
-
-  const handleGoFirstPage = () => {
-    goFirstPage();
-  };
-
-  const handleGoNextPage = () => {
-    goNextPage();
-  };
-
-  const handleGoLastPage = () => {
-    goLastPage();
-  };
-
-  const handleGoPreviousPage = () => {
-    goPreviousPage();
-  };
-
-  const handleApoDescriptionShorter = (description) => {
-    return ApoDescriptionShorter(description);
-  };
-
-  const handleDelete = (id) => {
-    deletePost(id);
-  };
-
- const handleSortByUserId = (userId) => {
-  sortByUserId(userId);
- };
-
-const handleNewpostcloseopener = () => {
-  newpostcloseopener();
-};
+  const { 
+    posts, 
+    page, 
+    limit, 
+    setLimit, 
+    error, 
+    addNewPost, 
+    goFirstPage, 
+    goNextPage, 
+    goLastPage, 
+    goPreviousPage, 
+    newpostcloseopener, 
+    ApoDescriptionShorter,
+    filteredPosts
+  } = usePoster();
 
 
 
@@ -74,15 +31,14 @@ const handleNewpostcloseopener = () => {
       <div className={styles.Posts}>
         <div className={styles.title}>
           <h1>Posts Grid</h1>
-          <button className={styles.button} onClick={handleNewpostcloseopener}>Add New Post</button>
+          <button className={styles.button} onClick={newpostcloseopener}>Add New Post</button>
         </div>
 
-        <Filterbar sortByUserId={handleSortByUserId} />
+        <Filterbar />
 
-
-      {/* show add new post component */}
+        {/* show add new post component */}
         {addNewPost && <AddNewPost />}
-      {addNewPost && <button className={styles.button}>Back to Posts</button>}
+        {addNewPost && <button className={styles.button}>Back to Posts</button>}
 
         {error && (
           <div>
@@ -97,31 +53,30 @@ const handleNewpostcloseopener = () => {
         )}
 
         <div className={styles.cardContainer}>
-          {posts.map((post) => (
+          {filteredPosts.map((post) => (
             <Card
               key={post.id}
               title={post.title}
-              description={handleApoDescriptionShorter(post.body)}
-              deletePost={handleDelete}
+              description={ApoDescriptionShorter(post.body)}
               postId={post.id}
-            ></Card>
+            />
           ))}
         </div>
 
         {/* --------- Pagination Container --------- */}
         {error && <p className={styles.error}>{error}</p>}
         <div className={styles.paginationContainer}>
-          <button className={styles.button} onClick={handleGoFirstPage}>
+          <button className={styles.button} onClick={goFirstPage}>
             First Page
           </button>
-          <button className={styles.button} onClick={handleGoPreviousPage}>
+          <button className={styles.button} onClick={goPreviousPage}>
             Previous Page
           </button>
           <button className={styles.button}>Current Page: {page}</button>
           <input
             type="number"
             value={limit}
-            onChange={(e) => setLimit(e.target.value)}
+            onChange={(e) => setLimit(Number(e.target.value))}
           />
           <div className={styles.dropdownContent}>
             <button className={styles.button} onClick={() => setLimit(10)}>
@@ -140,10 +95,10 @@ const handleNewpostcloseopener = () => {
               50
             </button>
           </div>
-          <button className={styles.button} onClick={handleGoNextPage}>
+          <button className={styles.button} onClick={goNextPage}>
             Next Page
           </button>
-          <button className={styles.button} onClick={handleGoLastPage}>
+          <button className={styles.button} onClick={goLastPage}>
             Last Page
           </button>
         </div>

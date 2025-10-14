@@ -1,4 +1,17 @@
-0.0.2 – Newest Updates
+0.0.3 – Newest Updates
+• Implemented context with the help of Levi  – removed prop drilling; all components now access context directly
+• Added smooth hover effects (image zoom, gradient overlay, text slide-in) and responsive 3→2→1 column grid layout
+• Integrated Lucide React icons (ArrowUpRight, Trash2, Edit, ArrowLeft) and modernized Design
+• Added `updatePostInContext` and `updatePost` API for real-time updates and PUT requests to JSONPlaceholder
+• PostPage now reads from context first for instant updates; AddNewPost form redesigned with glassmorphism, loading & error states
+• consistent card heights, improved loading/error handling, and general code cleanup
+• Searchbar is not working
+• Pagination, add new posts, filter nothing works anymore
+• fixed all is now working
+
+
+
+0.0.2 – Previous Updates
 • Context is now working with the Posts Grid — I’m creating a universal version for all components instead of prop drilling. Levi helped me with that, and you also gave me a tip to use Raycast and plugins. I’ll come back to that once I feel more confident instead of relying on predefined templates.
 • Installed Vite updating before i get problems
 • Tryed to build Context & Reducer still working on that 

@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import Header from './components/header/Header.jsx';
 import Footer from './components/footer/Footer.jsx';
 import AddNewPost from './pages/add-new-post/AddNewPost.jsx';
 import PostPage from './pages/PostPage/PostPage.jsx';
+import EditPost from './pages/edit-post/EditPost.jsx';
 
 // import von context
 import { PosterProvider } from './context/postercontext.jsx';
@@ -24,10 +25,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/AddNewPost" element={<AddNewPost />} />
-          {/* <Route path="/editpost/:postId" element={<EditPost />} />
-          <Route path="/AllPosts" element={<AllPosts />} /> */}
+          <Route path="/editpost/:postId" element={<EditPost />} />
           <Route path="/Posts/:postId" element={<PostPage />} />
-
         </Routes>
         <Footer />
       </BrowserRouter>

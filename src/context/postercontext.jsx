@@ -21,30 +21,32 @@ export const PosterProvider = ({ children }) => {
   const [limit, setLimit] = useState(10);
   const [addNewPost, setAddNewPost] = useState(false);
 
+  // for search
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
-    fetch(
-      `https://jsonplaceholder.typicode.com/posts?_limit=${limit}&_page=${page}&userId=${userId}`
-    )
-      .then((response) => response.json())
-      .then((data) => setPosts(data))
-      .catch((error) => setError(error));
-  }, [page, limit]);
-  
-  useEffect(() => {
-    async function test() {
-      const result = await getPosts(page, userId);
-      const lastPage = limit;
-      setLastPage(lastPage);
-      if (!result.ok) {
-        throw new Error("Failed to fetch posts");
+    async function fetchPosts() {
+      try {
+        const result = await getPosts(page, limit, userId);
+        if (!result.ok) {
+          throw new Error("Failed to fetch posts");
+        }
+        const list = await result.json();
+        console.log(list);
+        setPosts(list);
+        // Berechne lastPage basierend auf der Gesamtanzahl (100 Posts bei JSONPlaceholder)
+        const totalPosts = 100;
+        const calculatedLastPage = Math.ceil(totalPosts / limit);
+        setLastPage(calculatedLastPage);
+      } catch (err) {
+        setError(err);
+        console.error("Error fetching posts:", err);
       }
-      const list = await result.json();
-      console.log(list);
-      setPosts(list);
     }
 
-    test();
-  }, [page, limit]);
+    fetchPosts();
+  }, [page, limit, userId, searchTerm]);
 
   // ApoDescriptionShorter is a function that shortens the description of the post to 100 characters
   const ApoDescriptionShorter = (description) => {
@@ -91,6 +93,60 @@ export const PosterProvider = ({ children }) => {
     setAddNewPost(!addNewPost);
   };
 
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    console.log(searchTerm);
+  };
+
+  // geiilll
+  useEffect(() => {
+    let filtered = posts;
+    if (searchTerm) {
+      filtered = filtered.filter((post) => post.title.includes(searchTerm));
+    }
+    setFilteredPosts(filtered);
+    console.log(filtered);
+  }, [searchTerm, posts]);
+
+  const addPost = async (title, body, userId = 1) => {
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        body: JSON.stringify({
+          title: title,
+          body: body,
+          userId: userId,
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to add post");
+      }
+      
+      const newPost = await response.json();
+      console.log("Post added:", newPost);
+      
+      // Füge den neuen Post zur Liste hinzu
+      setPosts([newPost, ...posts]);
+      setAddNewPost(false); // Schließe das Formular
+      
+      return newPost;
+    } catch (err) {
+      setError(err);
+      console.error("Error adding post:", err);
+      throw err;
+    }
+  };
+
+  const updatePostInContext = (postId, title, body) => {
+    const updatedPosts = posts.map(post => 
+      post.id === parseInt(postId) ? { ...post, title, body } : post
+    );
+    setPosts(updatedPosts);
+  };
 
   // fürs filter damit er arbeiten kann
   const sortByUserId = (userId) => {
@@ -101,6 +157,8 @@ export const PosterProvider = ({ children }) => {
     ApoDescriptionShorter,
     newpostcloseopener,
     deletePost,
+    addPost,
+    updatePostInContext,
     sortByUserId,
     goNextPage,
     goLastPage,
@@ -116,6 +174,14 @@ export const PosterProvider = ({ children }) => {
     setPage,
     error,
     setError,
+    lastPage,
+    limit,
+    setLimit,
+    searchTerm,
+    setSearchTerm,
+    filteredPosts,
+    setFilteredPosts,
+    handleSearch,
   };
 
   return (

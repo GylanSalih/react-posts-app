@@ -1,41 +1,39 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styles from "./AddNewPost.module.scss";
-import { useNavigate } from "react-router-dom";
+import { usePoster } from "../../context/postercontext.jsx";
 
 const AddNewPost = () => {
-  const navigate = useNavigate();
+  const { addPost } = usePoster();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const titleRef = useRef(null);
-  const bodyRef = useRef(null);
-  const handleAddPostClicker = (e) => {
-    e.stopPropagation(); // Verhindere Card-Click Event
-    console.log("Add Post wurd angeklickt!");
-    if (window.confirm("Möchtest du diesen Post wirklich hinzufügen?")) {
-      // logic here
-      console.log(titleRef.current.value);
-      console.log(bodyRef.current.value);
-      console.log(title);
-      console.log(body);
+  const [userId, setUserId] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const handleAddPostClicker = async (e) => {
+    e.preventDefault(); // Prevent Standard-Formular-Submit
+    
+    if (!title.trim() || !body.trim()) {
+      alert("Please fill out all fields!");
+      return;
+    }
+
+    if (window.confirm("Do you want to add this post?")) {
+      try {
+        setLoading(true);
+        await addPost(title, body, userId);
+        // Reset the form
+        setTitle("");
+        setBody("");
+        setUserId(1);
+        alert("Post successfully added!");
+      } catch (err) {
+        alert("Error adding post");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     }
   };
-
-
-  // für später updating a resource
-  // fetch('https://jsonplaceholder.typicode.com/posts/1', {
-  //   method: 'PUT',
-  //   body: JSON.stringify({
-  //     id: 1,
-  //     title: 'foo',
-  //     body: 'bar',
-  //     userId: 1,
-  //   }),
-  //   headers: {
-  //     'Content-type': 'application/json; charset=UTF-8',
-  //   },
-  // })
-  //   .then((response) => response.json())
-  //   .then((json) => console.log(json));
 
 
   return (
@@ -44,27 +42,36 @@ const AddNewPost = () => {
         <p>Add New Post</p>
       </div>
       <div className={styles.formContainer}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleAddPostClicker}>
           <input
             type="text"
             value={title}
-            placeholder="Your Title"
-            ref={titleRef}
+            placeholder="Enter Title..."
             onChange={(e) => setTitle(e.target.value)}
+            disabled={loading}
           />
           <input
             type="text"
             value={body}
-            placeholder="Your Description"
-            ref={bodyRef}
+            placeholder="Enter Content..."
             onChange={(e) => setBody(e.target.value)}
+            disabled={loading}
+          />
+          <input
+            type="number"
+            value={userId}
+            placeholder="Enter User ID..."
+            onChange={(e) => setUserId(e.target.value)}
+            disabled={loading}
+            max={5}
+            min={1}
           />
           <button
             className={styles.createbutton}
             type="submit"
-            onSubmit={() => handleAddPostClicker()}
+            disabled={loading}
           >
-            Create Post
+            {loading ? "Creating..." : "Create Post"}
           </button>
         </form>
       </div>
