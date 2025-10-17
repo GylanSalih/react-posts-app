@@ -1,11 +1,14 @@
+
+
+
 import React, { useState, useEffect } from "react";
-import styles from "./PostPage.module.scss";
+import styles from "./SinglePostPageView.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { getPostById } from "../../api/api";
 import { usePoster } from "../../context/Context.jsx";
 
-const PostPage = () => {
+const SinglePostPageView = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
   const { deletePost, posts } = usePoster();
@@ -55,71 +58,66 @@ const PostPage = () => {
     });
   };
 
+  // const handleDelete = async () => {
+  //   if (window.confirm("Do you want to delete this post?")) {
+  //     try {
+  //       await deletePost(postId);
+  //       // Navigate to the Posts-Page after successful deletion
+  //       navigate("/");
+  //     } catch (err) {
+  //       setError("Error deleting post");
+  //     }
+  //   }
+  // };
+
   const handleDelete = async () => {
     if (window.confirm("Do you want to delete this post?")) {
       try {
-        await deletePost(postId);
+        await deletePost(parseInt(postId));
         // Navigate to the Posts-Page after successful deletion
-        navigate("/posts");
+        navigate("/");
       } catch (err) {
         setError("Error deleting post");
       }
     }
   };
 
+
+
+// geht cleaner aber stürtzt ab wenn loading weg ist
   if (loading) {
     return (
-      <div className={styles.simpleWrapper}>
-        <div className={styles.postPage}>
-          <div className={styles.loadingContainer}>
-            <p>Loading...</p>
-          </div>
-        </div>
-      </div>
+      <p>Loading...</p>
     );
   }
-
   if (error) {
     return (
-      <div className={styles.simpleWrapper}>
-        <div className={styles.postPage}>
-          <div className={styles.errorContainer}>
-            <h1>Error</h1>
-            <p>{error}</p>
-            <button className={styles.backButton} onClick={() => navigate("/posts")}>
-              <ArrowLeft size={20} />
-              Back to Posts
-            </button>
-          </div>
-        </div>
-      </div>
+      <>
+      <h1>Error</h1>
+      <p>{error}</p>
+      </>
+    );
+  }
+  if (!post) {
+    return (
+      <>
+      <h1>Post not found</h1>
+      </>
     );
   }
 
-  if (!post) {
-    return (
-      <div className={styles.simpleWrapper}>
-        <div className={styles.postPage}>
-          <div className={styles.errorContainer}>
-            <h1>Post not found</h1>
-            <button className={styles.backButton} onClick={() => navigate("/posts")}>
-              <ArrowLeft size={20} />
-              Back to Posts
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+
+
 
   return (
     <div className={styles.simpleWrapper}>
       <div className={styles.postPage}>
-        <button className={styles.backButtonTop} onClick={() => navigate("/posts")}>
+        <button className={styles.backButtonTop} onClick={() => navigate("/")}>
           <ArrowLeft size={20} />
           Back to Posts
         </button>
-        
+
+
         <div className={styles.postCard}>
           <div className={styles.imageContainer}>
             <img 
@@ -161,4 +159,4 @@ const PostPage = () => {
   );
 };
 
-export default PostPage;
+export default SinglePostPageView;

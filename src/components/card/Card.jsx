@@ -37,6 +37,7 @@ const Card = ({ title, description, postId }) => {
   }
 
   return (
+    
     <div className={styles.card}>
       <figure className={styles.figure}>
         <img 

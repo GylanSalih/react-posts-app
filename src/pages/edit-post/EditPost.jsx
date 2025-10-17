@@ -5,7 +5,10 @@ import { ArrowLeft } from "lucide-react";
 import { getPostById, updatePost } from "../../api/api";
 import { usePoster } from "../../context/Context.jsx";
 
+
 const EditPost = () => {
+
+
   const { postId } = useParams();
   const navigate = useNavigate();
   const { updatePostInContext } = usePoster();
@@ -19,6 +22,7 @@ const EditPost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
+        // dispatch({type:"FETCH_INIT"});
         setLoading(true);
         const response = await getPostById(postId);
         if (!response.ok) {

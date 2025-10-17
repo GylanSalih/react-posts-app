@@ -10,9 +10,11 @@ const Header = () => {
           <img src="/Logo_Waschbaer.png" alt="logo" className={styles.logo} />
         </Link>
 
+
+{/* 
         <Link to="/posts" className={styles.link}>
           All Posts
-        </Link>
+        </Link> */}
         <Link to="/AddNewPost" className={styles.link}>
           Add New Post
         </Link>

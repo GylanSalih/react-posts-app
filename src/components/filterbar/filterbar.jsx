@@ -1,32 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./filterbar.module.scss";
 import { usePoster } from "../../context/Context.jsx";
 
 const Filterbar = () => {
-  const { sortByUserId, setSearchTerm, searchTerm, handleSearch } = usePoster();
+  const { sortByUserId, searchTerm, handleSearch } = usePoster();
+  const [selectedUserId, setSelectedUserId] = useState("all");
 
-
-
-
-  const handleClear = () => {
-    setSearchTerm("");
-    sortByUserId(""); // Clear filter
-  };
-
-  // handle search by string
-  // Handle search
-
+  console.log(handleSearch);
 
   const handleSelect = (e) => {
-    const selectedUserId = e.target.value;
-    console.log(selectedUserId);
-    if (selectedUserId === "all") {
+    const userId = e.target.value;
+    setSelectedUserId(userId);
+    console.log(userId);
+    if (userId === "all") {
       sortByUserId("");
     } else {
-      sortByUserId(selectedUserId);
+      sortByUserId(userId);
     }
   };
 
+  const resetHandler = () => {
+    sortByUserId("");
+    setSelectedUserId("all");
+  }
   return (
     <div className={styles.simpleWrapper}>
       <div className={styles.filterbar}>
@@ -34,11 +30,16 @@ const Filterbar = () => {
         <input 
           placeholder="Search posts..."
           className={styles.input}
+
           type="text" 
           value={searchTerm} 
           onChange={(e) => handleSearch(e)}
-        />
-        <select className={styles.selectdropdown} onChange={handleSelect}>
+          />
+        <select 
+          className={styles.selectdropdown} 
+          onChange={handleSelect}
+          value={selectedUserId}
+        >
           <option value="all">Show all</option>
           <option value="1">User 1</option>
           <option value="2">User 2</option>
@@ -46,7 +47,7 @@ const Filterbar = () => {
           <option value="4">User 4</option>
           <option value="5">User 5</option>
         </select>
-        <button className={styles.clearbutton} onClick={handleClear}>Clear</button>
+        <button className={styles.clearbutton} type="reset" onClick={resetHandler}>Clear</button>
       </div>
     </div>
   );

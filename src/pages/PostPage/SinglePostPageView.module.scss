@@ -14,7 +14,7 @@
   }
 }
 
-.postPage {
+.singlePostPageView {
   max-width: 1000px;
   margin: 0 auto;
   animation: fadeIn 0.5s ease;
@@ -87,7 +87,7 @@
   display: block;
 }
 
-.postPageContainer {
+.singlePostPageViewContainer {
   padding: 3rem;
 
   @media (max-width: 768px) {
